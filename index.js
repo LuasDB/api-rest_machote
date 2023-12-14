@@ -23,6 +23,7 @@ const options ={
     }
   }
 }
+
 app.use(cors(options));
 //Mandamos nuestra aplicación a las rutas
 routerApi(app);
