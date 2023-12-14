@@ -9,14 +9,14 @@ const { logErrors,errorHandler,boomErrorHandler } = require('./middleware/error.
 //Variable para llamar las funciones de express
 const app = express();
 //Definimos el puerto a utilizar
-const port= 3000;
+const port= process.env.PORT || 3000;
 //Para que express pueda hacer la conversión de los JSON
 app.use(express.json());
 //Ejecutamos CORS, primero crearemos las url a las que le daremos acceso
 // const whitelist = ['http://127.0.0.1:5500','https://myapp.co'];
 // const options ={
 //   origin: (origin,callback)=>{
-//     if(whitelist.includes(origin)){
+//     if(whitelist.includes(origin) || !origin){
 //       callback(null,true);
 //     }else{
 //       callback(new Error('No permitido'));
