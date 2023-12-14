@@ -1,5 +1,7 @@
 //Agregamos express para empezar nuetro servidor ,para intalarlo : npm i express
 const express = require('express');
+//Traemos la libreria de cors para evitar estos errores en produccion
+const cors = require('cors');
 //exportamos nuestra funcion de routerApi para nuestra aplicación
 const routerApi = require('./routes');
 //Exportamos los Middlewares que utilizaremos para los errores
@@ -10,6 +12,18 @@ const app = express();
 const port= 3000;
 //Para que express pueda hacer la conversión de los JSON
 app.use(express.json());
+//Ejecutamos CORS, primero crearemos las url a las que le daremos acceso
+const whitelist = ['http://127.0.0.1:5500','https://myapp.co'];
+const options ={
+  origin: (origin,callback)=>{
+    if(whitelist.includes(origin)){
+      callback(null,true);
+    }else{
+      callback(new Error('No permitido'));
+    }
+  }
+}
+app.use(cors(options));
 //Mandamos nuestra aplicación a las rutas
 routerApi(app);
 //Manejo de los Middlewares por parte de express, es importante el orden de los mismos
@@ -17,8 +31,7 @@ routerApi(app);
 app.use(boomErrorHandler);
 app.use(logErrors);
 app.use(errorHandler);
-
-
+//Arrancamos en el puerto declarado
 app.listen(port,()=>{
   console.log('Mi port:' + port);
 });
