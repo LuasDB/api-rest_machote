@@ -83,8 +83,6 @@ class ProductsService{
       id }
 
   }
-
-
 }
 
 module.exports = ProductsService;
