@@ -13,18 +13,19 @@ const port= 3000;
 //Para que express pueda hacer la conversión de los JSON
 app.use(express.json());
 //Ejecutamos CORS, primero crearemos las url a las que le daremos acceso
-const whitelist = ['http://127.0.0.1:5500','https://myapp.co'];
-const options ={
-  origin: (origin,callback)=>{
-    if(whitelist.includes(origin)){
-      callback(null,true);
-    }else{
-      callback(new Error('No permitido'));
-    }
-  }
-}
+// const whitelist = ['http://127.0.0.1:5500','https://myapp.co'];
+// const options ={
+//   origin: (origin,callback)=>{
+//     if(whitelist.includes(origin)){
+//       callback(null,true);
+//     }else{
+//       callback(new Error('No permitido'));
+//     }
+//   }
+// }
 
-app.use(cors(options));
+// app.use(cors(options));
+app.use(cors());
 //Mandamos nuestra aplicación a las rutas
 routerApi(app);
 //Manejo de los Middlewares por parte de express, es importante el orden de los mismos
@@ -32,6 +33,10 @@ routerApi(app);
 app.use(boomErrorHandler);
 app.use(logErrors);
 app.use(errorHandler);
+
+
+//Estaticos
+app.use('/app',express.static('public'));
 //Arrancamos en el puerto declarado
 app.listen(port,()=>{
   console.log('Mi port:' + port);
